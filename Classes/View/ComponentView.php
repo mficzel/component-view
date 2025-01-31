@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PackageFactory\ComponentView\View;
 
 use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Domain\Model\NodeType;
 use PackageFactory\ComponentView\DummyInterfaces\IntegrationObjectInterface;
 use PackageFactory\ComponentView\DummyInterfaces\NodeObjectInterface;
 
@@ -12,12 +13,12 @@ class ComponentView
 {
     public function render(NodeInterface $node): string
     {
-        $nodeTypeObject = $this->instantiateNodeTypeObject($node);
-        $integrationObject = $this->instantiateIntegrationObject($node);
-        return $integrationObject->convertNodeToComponent($nodeTypeObject)->render();
+        $nodeObject = $this->instantiateNodeObject($node);
+        $integrationObject = $this->instantiateIntegrationObject($node->getNodeType());
+        return $integrationObject->convertNodeToComponent($nodeObject)->render();
     }
 
-    private function instantiateNodeTypeObject(NodeInterface $node): NodeObjectInterface
+    private function instantiateNodeObject(NodeInterface $node): NodeObjectInterface
     {
         $nodeObjectClass = $this->prepareNodeTypeClassName($node->getNodeType()->getName(), 'NodeObject');
         if (class_exists($nodeObjectClass)) {
@@ -29,9 +30,9 @@ class ComponentView
         throw new \Exception(sprintf('Class %s does not exist or dies not iplement %s', $nodeObjectClass, NodeObjectInterface::class));
     }
 
-    private function instantiateIntegrationObject(NodeInterface $node): IntegrationObjectInterface
+    private function instantiateIntegrationObject(NodeType $nodeType): IntegrationObjectInterface
     {
-        $integrationObjectClass = $this->prepareNodeTypeClassName($node->getNodeType()->getName(), 'IntegrationObject');
+        $integrationObjectClass = $this->prepareNodeTypeClassName($nodeType->getName(), 'IntegrationObject');
         if (class_exists($integrationObjectClass)) {
             $integrationObject = new $integrationObjectClass();
             if ($integrationObject instanceof IntegrationObjectInterface) {
