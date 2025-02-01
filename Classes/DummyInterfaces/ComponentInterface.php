@@ -9,5 +9,5 @@ use Neos\Flow\Annotations as Flow;
 #[Flow\Proxy(false)]
 interface ComponentInterface
 {
-    public static function render(): string;
+    public function render(): string;
 }
