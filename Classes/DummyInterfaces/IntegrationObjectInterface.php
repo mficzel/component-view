@@ -7,7 +7,7 @@ namespace PackageFactory\ComponentView\DummyInterfaces;
 use Neos\Flow\Annotations as Flow;
 
 /**
- * @template-contravariant T
+ * @template T of NodeObjectInterface
  */
 #[Flow\Proxy(false)]
 interface IntegrationObjectInterface
