@@ -11,7 +11,11 @@ use PackageFactory\ComponentView\DummyInterfaces\NodeObjectInterface;
  */
 readonly class TextIntegrationObject implements IntegrationObjectInterface
 {
-    public function convertNodeToComponent(NodeObjectInterface $node): TextComponent
+    /**
+     * @param TextNodeObject $node
+     * @return TextComponent
+     */
+    public function convertComponent(mixed $node): TextComponent
     {
         $text = $node->getText();
         if ($text !== null) {

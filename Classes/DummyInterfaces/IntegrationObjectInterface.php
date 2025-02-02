@@ -7,7 +7,7 @@ namespace PackageFactory\ComponentView\DummyInterfaces;
 use Neos\Flow\Annotations as Flow;
 
 /**
- * @template T of NodeObjectInterface
+ * @template-contravariant T
  */
 #[Flow\Proxy(false)]
 interface IntegrationObjectInterface
@@ -16,5 +16,5 @@ interface IntegrationObjectInterface
      * @param T $node
      * @return ComponentInterface
      */
-    public function convertNodeToComponent(NodeObjectInterface $node): ComponentInterface;
+    public function convertComponent(mixed $node): ComponentInterface;
 }
